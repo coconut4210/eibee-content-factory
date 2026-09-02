@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / "SKILL.md"
+SKILL = ROOT / "eibee" / "SKILL.md"
 README = ROOT / "README.md"
 LICENSE = ROOT / "LICENSE"
 
@@ -20,8 +20,7 @@ def test_package_declares_mit_license():
 
 def test_readme_offers_a_copy_paste_install_command():
     text = README.read_text(encoding="utf-8")
-    assert "git clone https://github.com/coconut4210/eibee-content-factory.git" in text
-    assert "git -C" in text
+    assert "https://github.com/coconut4210/eibee-content-factory/tree/main/eibee" in text
 
 
 def test_skill_is_portable_and_has_no_private_automation_or_paths():
