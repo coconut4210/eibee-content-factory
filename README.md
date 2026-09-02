@@ -4,13 +4,13 @@
 
 ## 安装
 
-将整个 `eibee` 文件夹复制到你的 Codex skills 目录：
+将本仓库克隆到你的 Codex skills 目录，并将目录命名为 `eibee`：
 
-```text
-<CODEX_HOME>/skills/eibee/
+```bash
+git clone https://github.com/coconut4210/eibee-content-factory.git <CODEX_HOME>/skills/eibee
 ```
 
-其中 `<CODEX_HOME>` 通常是 `~/.codex`。复制完成后重启或刷新 Codex 的 Skill 列表。
+其中 `<CODEX_HOME>` 通常是 `~/.codex`。完成后重启或刷新 Codex 的 Skill 列表。
 
 ## 使用
 
