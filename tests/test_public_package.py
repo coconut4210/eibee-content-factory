@@ -4,12 +4,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "SKILL.md"
 README = ROOT / "README.md"
+LICENSE = ROOT / "LICENSE"
 
 
 def test_public_package_has_a_skill_and_install_guide():
     assert SKILL.is_file()
     assert README.is_file()
+    assert LICENSE.is_file()
     assert "C:\\Users" not in README.read_text(encoding="utf-8")
+
+
+def test_package_declares_mit_license():
+    assert "MIT License" in LICENSE.read_text(encoding="utf-8")
 
 
 def test_skill_is_portable_and_has_no_private_automation_or_paths():
