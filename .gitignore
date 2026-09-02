@@ -1,0 +1,14 @@
+# Local and generated files
+.DS_Store
+Thumbs.db
+__pycache__/
+.pytest_cache/
+
+# Never publish credentials, generated assets, or private brand material
+.env
+*.key
+*.pem
+*.p12
+uploads/
+private/
+assets-private/
