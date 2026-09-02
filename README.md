@@ -16,6 +16,26 @@ Codex 的 `skill-installer` 会把它安装到 `~/.codex/skills/eibee`；安装�
 
 目前 Codex CLI 没有内置的 `codex skill install` 子命令；上面的自然语言安装入口会调用预装的 Skill 安装器。
 
+## 更新
+
+Skill 不会静默更新，避免在未经用户同意时覆盖本地自定义内容。需要更新时，用户可在 Codex 中发送：
+
+```text
+帮我更新已安装的 eibee Skill 到最新版，运行它自带的更新脚本，并告诉我更新后的版本号。
+```
+
+Codex 应执行已安装目录内的脚本：Windows 为 `scripts/update-skill.ps1`，macOS/Linux 为 `scripts/update-skill.sh`。脚本会下载并校验最新版 `SKILL.md` 与 `VERSION`，更新前会保留 `SKILL.md.bak` 备份。
+
+若需要固定到某个发布版本，可指定 Git tag，例如让 Codex 运行 PowerShell 脚本时传入 `-Ref v1.0.1`，或运行 Shell 脚本时传入 `v1.0.1`。
+
+### 发布者更新流程
+
+1. 修改 `eibee/SKILL.md`，并同步更新 `eibee/VERSION`（遵循 `主版本.次版本.修订版本`）。
+2. 运行检查，提交并推送到 `main`。
+3. 对稳定版本创建同名 Git tag，例如 `v1.0.1`，然后推送该 tag。
+
+常规规则和文案更新可通过更新脚本同步。若更新涉及 `scripts/`、新增资源或目录结构，用户应再次使用 README 中的安装请求重新安装，以确保整个包一致。
+
 ## 使用
 
 在对话中输入 `$eibee`，然后说明你需要：周度规划、月度排期或单篇内容。开始前请提供或确认：

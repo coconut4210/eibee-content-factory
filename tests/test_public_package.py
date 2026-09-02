@@ -5,6 +5,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "eibee" / "SKILL.md"
 README = ROOT / "README.md"
 LICENSE = ROOT / "LICENSE"
+VERSION = ROOT / "eibee" / "VERSION"
+WINDOWS_UPDATER = ROOT / "eibee" / "scripts" / "update-skill.ps1"
+UNIX_UPDATER = ROOT / "eibee" / "scripts" / "update-skill.sh"
 
 
 def test_public_package_has_a_skill_and_install_guide():
@@ -16,6 +19,14 @@ def test_public_package_has_a_skill_and_install_guide():
 
 def test_package_declares_mit_license():
     assert "MIT License" in LICENSE.read_text(encoding="utf-8")
+
+
+def test_package_includes_explicit_user_triggered_updaters():
+    assert VERSION.is_file()
+    assert WINDOWS_UPDATER.is_file()
+    assert UNIX_UPDATER.is_file()
+    assert "coconut4210/eibee-content-factory" in WINDOWS_UPDATER.read_text(encoding="utf-8")
+    assert "coconut4210/eibee-content-factory" in UNIX_UPDATER.read_text(encoding="utf-8")
 
 
 def test_readme_offers_a_copy_paste_install_command():
