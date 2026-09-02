@@ -4,13 +4,33 @@
 
 ## 安装
 
-将本仓库克隆到你的 Codex skills 目录，并将目录命名为 `eibee`：
+将本仓库克隆到 Codex 的本地 Skills 目录，并将目录命名为 `eibee`。安装后重启或刷新 Codex 的 Skill 列表。
 
-```bash
-git clone https://github.com/coconut4210/eibee-content-factory.git <CODEX_HOME>/skills/eibee
+**Windows PowerShell：**
+
+```powershell
+git clone https://github.com/coconut4210/eibee-content-factory.git "$env:USERPROFILE\.codex\skills\eibee"
 ```
 
-其中 `<CODEX_HOME>` 通常是 `~/.codex`。完成后重启或刷新 Codex 的 Skill 列表。
+**macOS / Linux：**
+
+```bash
+git clone https://github.com/coconut4210/eibee-content-factory.git ~/.codex/skills/eibee
+```
+
+如果已安装，需要更新时运行：
+
+```powershell
+git -C "$env:USERPROFILE\.codex\skills\eibee" pull --ff-only
+```
+
+macOS / Linux 对应命令：
+
+```bash
+git -C ~/.codex/skills/eibee pull --ff-only
+```
+
+目前 Codex CLI 没有内置的 `codex skill install` 子命令；以上 Git 命令是可复现、可审计的安装方式。
 
 ## 使用
 

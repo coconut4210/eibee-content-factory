@@ -18,6 +18,12 @@ def test_package_declares_mit_license():
     assert "MIT License" in LICENSE.read_text(encoding="utf-8")
 
 
+def test_readme_offers_a_copy_paste_install_command():
+    text = README.read_text(encoding="utf-8")
+    assert "git clone https://github.com/coconut4210/eibee-content-factory.git" in text
+    assert "git -C" in text
+
+
 def test_skill_is_portable_and_has_no_private_automation_or_paths():
     text = SKILL.read_text(encoding="utf-8").lower()
     forbidden = (
