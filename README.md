@@ -4,13 +4,17 @@
 
 ## 安装
 
-将本仓库克隆到你的 Codex skills 目录，并将目录命名为 `eibee`：
+### 在 Codex 对话中安装（推荐）
 
-```bash
-git clone https://github.com/coconut4210/eibee-content-factory.git <CODEX_HOME>/skills/eibee
+直接把下面这句话发送给 Codex：
+
+```text
+帮我安装这个 Skill：https://github.com/coconut4210/eibee-content-factory/tree/main/eibee
 ```
 
-其中 `<CODEX_HOME>` 通常是 `~/.codex`。完成后重启或刷新 Codex 的 Skill 列表。
+Codex 的 `skill-installer` 会把它安装到 `~/.codex/skills/eibee`；安装完成后，该 Skill 会在下一轮对话中可用。自定义 Skill 需要提供仓库地址；只写 `eibee` 这个名称时，Codex 默认只能检索其内置精选列表，无法可靠定位第三方仓库。
+
+目前 Codex CLI 没有内置的 `codex skill install` 子命令；上面的自然语言安装入口会调用预装的 Skill 安装器。
 
 ## 使用
 
