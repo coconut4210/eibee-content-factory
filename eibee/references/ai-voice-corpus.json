@@ -1,0 +1,118 @@
+{
+  "version": "1.0.0",
+  "description": "eibee 中英文可见内容的 AI 腔模式库。命中项用于定位和局部重写，不作为作者身份检测。",
+  "rules": [
+    {
+      "id": "zh-negative-parallelism",
+      "language": "zh",
+      "category": "manufactured_contrast",
+      "severity": "block",
+      "pattern": "[^。！？\\n\\r|]{0,50}不(?:是|只|仅仅)[^。！？\\n\\r|]{0,50}(?:，|,)?\\s*(?:而是|更是)[^。！？\\n\\r|]{1,80}",
+      "rationale": "用否定前项包装后项，容易制造并不存在的对立。",
+      "rewrite_action": "删除作为陪衬的前项，直接陈述可证明的观察、动作或判断；确有对立时补出对立成立的依据。"
+    },
+    {
+      "id": "zh-not-only-also",
+      "language": "zh",
+      "category": "manufactured_contrast",
+      "severity": "block",
+      "pattern": "[^。！？\\n\\r|]{0,50}不仅[^。！？\\n\\r|]{0,50}(?:而且|还|也)[^。！？\\n\\r|]{1,80}",
+      "rationale": "机械递进经常把两个普通特征包装成升级关系。",
+      "rewrite_action": "分别说明两个信息的关系；次要信息没有增量时删除。"
+    },
+    {
+      "id": "zh-false-reframe",
+      "language": "zh",
+      "category": "false_revelation",
+      "severity": "block",
+      "pattern": "(?:真正(?:重要|关键|值得关注|需要关注)的是|问题的关键在于|答案其实很简单)[^。！？\\n]{1,80}",
+      "rationale": "用揭晓口吻代替论证，常见于没有事实支撑的伪反常识表达。",
+      "rewrite_action": "直接写判断，并紧接一个具体场景、机制、证据或代价。"
+    },
+    {
+      "id": "zh-from-to-upgrade",
+      "language": "zh",
+      "category": "empty_upgrade",
+      "severity": "block",
+      "pattern": "从[^，。！？\\n]{1,24}到[^，。！？\\n]{1,24}(?:的)?(?:转变|转型|跃迁|升级|进化)",
+      "rationale": "抽象的“从 X 到 Y”经常营造变化感，却没有说明动作和状态。",
+      "rewrite_action": "写清谁在什么时点做了什么，以及产生了哪项可见变化。"
+    },
+    {
+      "id": "zh-summary-filler",
+      "language": "zh",
+      "category": "automatic_summary",
+      "severity": "block",
+      "pattern": "(?:综上所述|总而言之|归根结底|说到底|归根到底)[，,:：]?[^。！？\\n]{0,100}",
+      "rationale": "段尾自动总结通常复述前文而不增加信息。",
+      "rewrite_action": "若没有新信息就删除；需要结论时写成可执行决定或明确判断。"
+    },
+    {
+      "id": "zh-vague-authority",
+      "language": "zh",
+      "category": "vague_attribution",
+      "severity": "block",
+      "pattern": "(?:研究表明|数据显示|业内人士认为|专家指出|越来越多的)[^。！？\\n]{2,100}",
+      "rationale": "模糊归因制造可信感，却没有可追溯来源。",
+      "rewrite_action": "补充可追溯来源和具体范围；没有来源时删除归因并降级为品牌观察。"
+    },
+    {
+      "id": "zh-generic-cta",
+      "language": "zh",
+      "category": "generic_call_to_action",
+      "severity": "block",
+      "pattern": "(?:让我们一起|一起)(?:开启|解锁|拥抱|探索|见证)[^。！？\\n]{1,80}",
+      "rationale": "万能号召与内容目标、可用下一动作通常没有关系。",
+      "rewrite_action": "根据真实可用动作写 CTA；没有必要动作时删除 CTA。"
+    },
+    {
+      "id": "zh-empty-question-cta",
+      "language": "zh",
+      "category": "generic_call_to_action",
+      "severity": "block",
+      "pattern": "(?:你怎么看|你准备好了吗|评论区告诉我们|欢迎在评论区分享)[？?！!。]?$",
+      "rationale": "与内容目标无关的模板互动会削弱品牌判断。",
+      "rewrite_action": "改成与内容中的具体选择、经历或行动直接相关的问题；不需要互动时删除。"
+    },
+    {
+      "id": "en-negative-parallelism",
+      "language": "en",
+      "category": "manufactured_contrast",
+      "severity": "block",
+      "flags": "ignorecase",
+      "pattern": "(?:\\b(?:it|this)\\s+(?:is|isn't|is not)|\\bit's)\\s+not(?:\\s+just|\\s+only|\\s+about)?[^.!?\\n]{1,80}(?:(?:,|;|—|-)\\s*but|\\.\\s*(?:it|this)\\s+is)[^.!?\\n]{1,100}|\\bnot\\s+(?:just|only)[^.!?\\n]{1,80}\\bbut(?:\\s+also)?\\b[^.!?\\n]{1,100}",
+      "rationale": "The negative setup often manufactures contrast instead of stating the supported point.",
+      "rewrite_action": "State the supported observation directly; keep a contrast only when the evidence establishes both sides."
+    },
+    {
+      "id": "en-false-reframe",
+      "language": "en",
+      "category": "false_revelation",
+      "severity": "block",
+      "flags": "ignorecase",
+      "pattern": "\\b(?:what really matters is|the real question is|the key is not|here's the truth)[^.!?\\n]{1,100}",
+      "rationale": "A reveal formula substitutes drama for reasoning.",
+      "rewrite_action": "Lead with the claim and follow it with a concrete mechanism, example, trade-off, or source."
+    },
+    {
+      "id": "en-summary-filler",
+      "language": "en",
+      "category": "automatic_summary",
+      "severity": "block",
+      "flags": "ignorecase",
+      "pattern": "\\b(?:in conclusion|to sum up|ultimately|at the end of the day)[,:]?[^.!?\\n]{0,120}",
+      "rationale": "Automatic closing language often repeats the paragraph without adding a decision.",
+      "rewrite_action": "Delete repetition or close with a specific decision, consequence, or next action."
+    },
+    {
+      "id": "en-generic-cta",
+      "language": "en",
+      "category": "generic_call_to_action",
+      "severity": "block",
+      "flags": "ignorecase",
+      "pattern": "\\b(?:let's|join us (?:as we|to))\\s+(?:unlock|embrace|explore|reimagine|shape)[^.!?\\n]{1,100}",
+      "rationale": "A universal call to action is usually detached from the available next step.",
+      "rewrite_action": "Use a real, content-specific next action or omit the CTA."
+    }
+  ]
+}

@@ -8,6 +8,8 @@ LICENSE = ROOT / "LICENSE"
 VERSION = ROOT / "eibee" / "VERSION"
 WINDOWS_UPDATER = ROOT / "eibee" / "scripts" / "update-skill.ps1"
 UNIX_UPDATER = ROOT / "eibee" / "scripts" / "update-skill.sh"
+AI_VOICE_SCANNER = ROOT / "eibee" / "scripts" / "ai_voice_scanner.py"
+AI_VOICE_CORPUS = ROOT / "eibee" / "references" / "ai-voice-corpus.json"
 
 
 def test_public_package_has_a_skill_and_install_guide():
@@ -61,6 +63,41 @@ def test_skill_preserves_portable_content_quality_controls():
         "传统替代测试",
         "功能清晰度",
         "4:5（1080 × 1350）",
-        "10%",
+        "blocking_count",
     ):
         assert required in text
+
+
+def test_package_includes_versioned_ai_voice_quality_gate():
+    assert AI_VOICE_SCANNER.is_file()
+    assert AI_VOICE_CORPUS.is_file()
+    skill = SKILL.read_text(encoding="utf-8")
+    assert "ai_voice_scanner.py" in skill
+    assert "阻断项" in skill
+
+
+def test_ai_voice_corpus_blocks_recurrent_manufactured_contrasts():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("ai_voice_scanner", AI_VOICE_SCANNER)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+
+    report = module.scan_text("这不是一张名单，而是一套增长引擎。")
+    assert report["passed"] is False
+    assert report["blocking_count"] == 1
+    assert report["findings"][0]["rule_id"] == "zh-negative-parallelism"
+
+
+def test_ai_voice_scanner_ignores_direct_concrete_copy():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("ai_voice_scanner", AI_VOICE_SCANNER)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+
+    report = module.scan_text("发过了吗？对方回了吗？打开邀约列表查看当前状态。")
+    assert report["passed"] is True
+    assert report["blocking_count"] == 0
